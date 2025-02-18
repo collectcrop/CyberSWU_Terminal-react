@@ -1,0 +1,148 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    font-family: 'Helvetica', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #EAF3FC;  /* 页面背景色 */
+  }
+
+/* 基本导航样式 */
+.navbar {
+    display: flex;
+    background-color:#DDE7EE;
+    padding: 5px 10px;
+    position: sticky;  /* 让导航栏固定在页面顶部 */
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    justify-content: space-between; 
+    border: 1px solid #BDC7CE;
+}
+
+.navbar-list-left {
+    list-style: none;
+    display: flex; /* 横向排列 */
+    justify-content: flex-start;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-list-right {
+    list-style: none;
+    display: flex; /* 横向排列 */
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-card-with-text {
+    display: flex;
+    margin-right: 20px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: auto;
+  }
+
+/* 图片样式 */
+.navbar-card-img {
+    width: 20px; /* 固定图片宽度 */
+    height: 20px; /* 固定图片高度 */
+    object-fit: cover; /* 保持图片比例，填充容器 */
+    border-radius: 50%; /* 图片圆形 */
+}
+
+/* 文字内容部分 */
+.navbar-card-content p {
+    margin-left: 10px;
+    font-weight: bold; /* 文字加粗 */
+    font-family: 'Arial', sans-serif; /* 设置好看的字体 */
+    font-size: 16px; /* 设置文字大小 */
+    color: #333; /* 设置文字颜色 */
+    word-wrap: break-word; /* 自动换行 */
+    white-space: normal; /* 允许多行显示 */
+}
+
+/* 高亮效果 */
+.navbar-card-with-text:hover {
+    background-color: #B1B9BF; /* 鼠标悬停时背景色变化 */
+    transform: translateY(-5px); /* 提升效果 */
+    border-color: #007bff; /* 鼠标悬停时的边框颜色 */
+}
+
+.navbar-card-selected {
+    background-color: #B1B9BF; /* 鼠标悬停时背景色变化 */
+    transform: translateY(-5px); /* 提升效果 */
+    border-color: #007bff; /* 鼠标悬停时的边框颜色 */
+}
+
+.home-page-title{
+    font-weight: bold;
+    margin-top: 200px;
+    text-align: center;
+    font-size: 40px;
+}
+
+.home-page-subtitle{
+    color: #E15957;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 10px;
+}
+
+
+.container {
+    display: flex; /* 使用Flexbox布局 */
+    height: 100vh; /* 设置容器的高度为视口的100% */
+}
+
+/* 左侧容器样式 */
+.left-container {
+    width: 20%; /* 设置左侧容器宽度为页面的30% */
+    background-color: #EAF3FC; /* 背景颜色，可以根据需要更改 */
+    padding: 10px;
+    display: flex;
+    flex-direction: column; /* 使内容纵向排列 */
+    flex-grow: 1;
+    justify-content: space-between; /* 根据需要调整子元素的间隔 */
+    border: 1px solid #BDC7CE;
+}
+
+/* 左侧容器子项样式 */
+.left-container-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: auto;
+}
+
+.left-container-item:hover {
+    background-color: #B1B9BF;
+    transform: translateY(-5px);
+    border-color: #007bff;
+}
+
+.left-container-item-text {
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.left-container-item-img {
+    height: auto; /* 高度根据宽度自动调整 */
+    object-fit: cover; /* 保持图片比例，填充容器 */
+}
+
+.customed-bg-color{
+    background-color: #EAF3FC;
+}
