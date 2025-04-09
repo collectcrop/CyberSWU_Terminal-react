@@ -2,7 +2,7 @@ import { useNavigate, useLocation} from "react-router-dom"
 const NavbarCard = ({ imageSrc, text, onClick, path }) => {
   const location = useLocation();
   // 动态计算className
-  const isActive = location.pathname === path;
+  const isActive = location.pathname.startsWith(path);
   const className = `flex mr-5 ml-1 flex-row items-center justify-start px-2.5 py-2 rounded-lg cursor-pointer 
   transition-all ease-linear duration-300 hover:bg-customed-color-hover ${isActive ? 'bg-customed-color-hover' : ''}`;
   return (
