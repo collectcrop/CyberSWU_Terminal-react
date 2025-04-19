@@ -1,12 +1,16 @@
 import { useNavigate } from "react-router-dom"
 import { useState } from 'react'
 import { useAuth } from '@contexts/AuthContext'
+import Toast from '@components/Toast'
 const Login = () =>{
     const navigate = useNavigate()
     const { login } = useAuth(); // 拿到 context 里的 login 方法
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
+    const [toast, setToast] = useState(null); // toast 状态
+    const showToast = (msg, type = 'error') => {
+      setToast({ message: msg, type });
+    };
     const handleSubmit = async (e) => {
       e.preventDefault(); // 阻止默认提交行为（防止刷新页面）
 
@@ -22,14 +26,12 @@ const Login = () =>{
         if (res.ok) {
           // localStorage.setItem('token', data.token); // 保存 token
           login(data.token)
-          console.log('登录成功');
-          navigate('/'); // 返回主页
+          showToast('登录成功', 'success');
         } else {
-          console.log(data.error || '登录失败');
+          showToast(data.error, 'error');
         }
       } catch (err) {
-        console.error('请求出错:', err);
-        alert('网络错误，请稍后再试。');
+        showToast('Network Error', 'error');
       }
     };
 
@@ -42,8 +44,8 @@ const Login = () =>{
                     <div className="text-4xl font-bold text-black drop-shadow-md mb-3">🏴‍☠️ 登录</div>
                     <div className="text-sm text-black/70 mt-1">Hello CTFer.</div>
                 </div>
-                <form onSubmit={handleSubmit}>
-                <div className="mb-4">
+                <form onSubmit={handleSubmit} className="relative">
+                <div className="mb-2">
                     <label htmlFor="username" className="block mb-1 font-medium">用户名</label>
                     <input
                     type="text"
@@ -73,6 +75,18 @@ const Login = () =>{
                 >
                     登录
                 </button>
+                {toast && (
+                    <div className="absolute w-full ">
+                      <Toast
+                        message={toast.message}
+                        type={toast.type}
+                        onClose={() => setToast(null)}
+                        onComplete={() => {
+                          if (toast.type === 'success') navigate('/');
+                        }}
+                      />
+                    </div>
+                  )}
                 </form>
 
                 <div className="flex justify-between mt-4 text-sm text-blue-500">

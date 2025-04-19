@@ -1,15 +1,49 @@
 import { useNavigate } from "react-router-dom"
 import { useState } from 'react'
 import {useAuth} from '@contexts/AuthContext'
+import Toast from "@components/Toast"
 const Register = () =>{
     const navigate = useNavigate()
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const { login } = useAuth();
+    const { login } = useAuth();  // 拿到 context 里的 login 方法
+    const [toast, setToast] = useState(null); // toast 状态
+    const showToast = (msg, type = 'error') => {
+      setToast({ message: msg, type });
+    };
+
+    const validateInputs = () => {
+      const errors = {};
+      if (!username || username.length < 3 || !/^[a-zA-Z0-9_]+$/.test(username)) {
+        errors.username = "用户名需大于3位，只能包含字母、数字和下划线";
+      }
+    
+      if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+        errors.email = "请输入有效的邮箱地址";
+      }
+    
+      if (
+        !password ||
+        password.length < 8 ||
+        !/[A-Z]/.test(password) ||
+        !/[a-z]/.test(password) ||
+        !/[0-9]/.test(password)
+      ) {
+        errors.password = "密码需至少8位，包含大写、小写和数字";
+      }
+    
+      return errors;
+    };
+
     const handleSubmit = async (e) => {
       e.preventDefault(); // 阻止默认提交行为（防止刷新页面）
-      console.log(JSON.stringify({ username, password, email }));
+      const errors = validateInputs();  // 验证输入
+      if (Object.keys(errors).length > 0) {
+        showToast(Object.values(errors)[0]); // 显示第一条错误
+        return;
+      }
+
       try {
         const res = await fetch('http://localhost:3001/api/auth/register', {
           method: 'POST',
@@ -23,13 +57,16 @@ const Register = () =>{
           // localStorage.setItem('token', data.token); // 保存 token
           login(data.token)
           console.log('注册成功');
-          navigate('/'); // 返回主页
+          showToast('注册成功', 'success');
+          setUsername('');
+          setPassword('');
+          setEmail('');
         } else {
-          console.log(data.error || '注册失败');
+          showToast(data.error, 'error');
         }
       } catch (err) {
         console.error('请求出错:', err);
-        alert('网络错误，请稍后再试。');
+        showToast('Network Error', 'error');
       }
     };
 
@@ -41,7 +78,7 @@ const Register = () =>{
                 <div className="text-center mb-6">
                     <div className="text-4xl font-bold text-black drop-shadow-md mb-3">注册账号</div>
                 </div>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="relative">
                 <div className="mb-4">
                     <label htmlFor="username" className="block mb-1 font-medium">用户名</label>
                     <input
@@ -84,7 +121,20 @@ const Register = () =>{
                 >
                     注册
                 </button>
+                  {toast && (
+                    <div className="absolute w-full ">
+                      <Toast
+                        message={toast.message}
+                        type={toast.type}
+                        onClose={() => setToast(null)}
+                        onComplete={() => {
+                          if (toast.type === 'success') navigate('/');
+                        }}
+                      />
+                    </div>
+                  )}
                 </form>
+                
             </div>
         </div>
     )

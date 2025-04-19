@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+    .animate-fade-in {
+      animation: fadeIn 0.3s ease-out;
+    }
+  
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  }
+  
 body {
     font-family: 'Helvetica', sans-serif;
     margin: 0;
@@ -146,3 +157,4 @@ body {
 .customed-bg-color{
     background-color: #EAF3FC;
 }
+
