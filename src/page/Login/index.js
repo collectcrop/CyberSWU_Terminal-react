@@ -80,7 +80,10 @@ const Login = () =>{
                         onClick={() => navigate('/register')}>
                 注册账号
                 </button>
-                <button className="hover:underline">忘记密码？</button>
+                <button className="hover:underline"
+                        onClick={() => navigate('/forget')}>
+                忘记密码？
+                </button>
                 </div>
             </div>
         </div>

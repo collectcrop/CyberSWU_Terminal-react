@@ -11,6 +11,8 @@ import Bulletin from "@page/Bulletin"
 import NotFound from "@page/NotFound"
 import Home from "@page/Home"
 import Register from "@page/Register"
+import Forget from "@page/Forget"
+import ResetPassword from "@page/ResetPassword"
 import App from "../App";
 
 const AppRouter = () => {
@@ -48,6 +50,14 @@ const AppRouter = () => {
                 {
                   path: "/register",
                   element: <Register />
+                },
+                {
+                  path: "/forget",
+                  element: <Forget />
+                },
+                {
+                  path: "/reset-password/:token",
+                  element: <ResetPassword />
                 },
                 {
                     path: "/games",

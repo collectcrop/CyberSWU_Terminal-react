@@ -1,13 +1,15 @@
 import { useNavigate } from "react-router-dom"
 import { useState } from 'react'
+import {useAuth} from '@contexts/AuthContext'
 const Register = () =>{
     const navigate = useNavigate()
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
+    const { login } = useAuth();
     const handleSubmit = async (e) => {
       e.preventDefault(); // 阻止默认提交行为（防止刷新页面）
-
+      console.log(JSON.stringify({ username, password, email }));
       try {
         const res = await fetch('http://localhost:3001/api/auth/register', {
           method: 'POST',
@@ -18,7 +20,8 @@ const Register = () =>{
         const data = await res.json();
         
         if (res.ok) {
-          localStorage.setItem('token', data.token); // 保存 token
+          // localStorage.setItem('token', data.token); // 保存 token
+          login(data.token)
           console.log('注册成功');
           navigate('/'); // 返回主页
         } else {
@@ -52,7 +55,7 @@ const Register = () =>{
                 </div>
 
                 <div className="mb-4">
-                    <label htmlFor="username" className="block mb-1 font-medium">邮箱</label>
+                    <label htmlFor="email" className="block mb-1 font-medium">邮箱</label>
                     <input
                     type="text"
                     id="email"
