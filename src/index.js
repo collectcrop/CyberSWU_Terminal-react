@@ -6,12 +6,14 @@ import { Provider } from "react-redux"
 import AppRouter from './router'
 import './theme.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import axios from 'axios'
+import { AuthProvider } from './contexts/AuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>
-        <AppRouter />
-    </Provider>
+    <AuthProvider>
+      <AppRouter />
+    </AuthProvider>
+  </Provider>
 );
 

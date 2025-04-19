@@ -1,20 +1,26 @@
 import TreeView from "@components/Tree"
+import Scrollbar from "@components/Scrollbar";
 import { useState,useEffect } from 'react'
 import { fetchknowledgeTree,clearknowledgeTree,toggleNode } from "@/store/modules/knowledgeStore"
+import { setKnowledgeLoaded } from "@/store/modules/flagsStore"
 import { useLocation, Outlet } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux'
+
+
 const Knowledge = () =>{
-    const [isFirstLoad, setIsFirstLoad] = useState(true);
+    const isFirstLoad = useSelector((state) => state.flags).isKnowledgeLoaded;
     const dispatch = useDispatch()
     const location = useLocation();  // 获取当前路由位置
+    console.log(isFirstLoad);
     useEffect(() => {
-        if (isFirstLoad) {
-            dispatch(fetchknowledgeTree());
-            setIsFirstLoad(false);
+        if (!isFirstLoad) {
+            console.log("first loaded!");
+            // dispatch(fetchknowledgeTree());
+            // dispatch(setKnowledgeLoaded(true));
         }
-        return () => {  /* 组件销毁时清除数据 */
-            dispatch(clearknowledgeTree())
-        }
+        // return () => {  /* 组件销毁时清除数据 */
+        //     dispatch(clearknowledgeTree())
+        // }
     },[dispatch])
 
     // 检查当前路径是否为子路由，路径包含 '/knowledge/'
@@ -27,16 +33,19 @@ const Knowledge = () =>{
             <div className="sticky shrink-0 w-1/5 top-0 left-0 min-w-[16rem] max-w-[32rem] 
             customed-bg-color border-r border-r-layer-content/10 print:hidden">
             {/* 左侧导航栏 */}
-                <div data-overlayscrollbars-initialize="" className="relative w-full h-full print:h-auto print:overflow-auto" data-overlayscrollbars="host">
                     {/* 自定义OverlayScrollbars组件实现，左侧导航栏滚动条效果 */}
                     <div className="p-3 lg:p-6 flex flex-col space-y-2 flex-1 min-h-[calc(100%-4rem)]">
                         {/* 左侧导航栏内容 */}
                         {treeList && <TreeView treeList={treeList} toggleNode={toggleNode}/>}
                     </div>
-                </div>
+
             </div>
+
+            
             {isSubRoute ? (
-                    <Outlet />  // 如果是子路由，渲染 Outlet（渲染子路由）
+                // 如果是子路由，渲染 Outlet（渲染子路由）
+                <Outlet />  
+                
                 ) : 
                 <div className="flex flex-1 flex-col overflow-auto justify-center items-center bg-customed-color">
                 {/* 右侧内容 */}

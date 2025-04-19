@@ -10,6 +10,7 @@ import Knowledge from "@page/Knowledge"
 import Bulletin from "@page/Bulletin"
 import NotFound from "@page/NotFound"
 import Home from "@page/Home"
+import Register from "@page/Register"
 import App from "../App";
 
 const AppRouter = () => {
@@ -43,6 +44,10 @@ const AppRouter = () => {
                 {
                     path: "/login",
                     element: <Login />
+                },
+                {
+                  path: "/register",
+                  element: <Register />
                 },
                 {
                     path: "/games",
