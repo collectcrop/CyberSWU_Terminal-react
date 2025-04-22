@@ -94,7 +94,7 @@ const Register = () =>{
                 <div className="mb-4">
                     <label htmlFor="email" className="block mb-1 font-medium">邮箱</label>
                     <input
-                    type="text"
+                    type="email"
                     id="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}

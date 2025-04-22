@@ -2,6 +2,7 @@ import { useNavigate, useLocation} from "react-router-dom"
 import { useState, useRef, useEffect } from "react"
 // import useAuth from "@hooks/useAuth"
 import { useAuth } from '@contexts/AuthContext'
+import NavbarCard from "@components/Card";
 const AvatarMenu = ({ user, logout }) => {
     const [open, setOpen] = useState(false);
     const menuRef = useRef(null);
@@ -56,26 +57,7 @@ const AvatarMenu = ({ user, logout }) => {
     );
   };
 
-const NavbarCard = ({ imageSrc, text, onClick, path, customContent }) => {
-  const location = useLocation();
-  // 动态计算className
-  const isActive = location.pathname.startsWith(path);
-  const className = `flex mr-5 ml-1 flex-row items-center justify-start px-2.5 py-2 rounded-lg cursor-pointer 
-  transition-all ease-linear duration-300 hover:bg-customed-color-hover ${isActive ? 'bg-customed-color-hover' : ''}`;
-  return (
-  <button onClick={onClick} className={className}>
-    {customContent ? (
-        customContent
-      ) : (
-        <>
-          <img src={imageSrc} className="w-4 h-4 mr-2" />
-          <span className="ml-1 font-bold">{text}</span>
-        </>
-      )}
-      
-  </button>
-  )
-}
+
 const Navbar = () =>{
   const navigate = useNavigate()
   const { user, isLoggedIn, logout } = useAuth();

@@ -5,6 +5,7 @@ import Article from "@page/Article"
 import Login from "@page/Login"
 import Games from "@page/Games"
 import Training from "@page/Training"
+import TrainingCategory from "@page/Training/TrainingCategory"
 import Layout from "@page/Layout"
 import Knowledge from "@page/Knowledge"
 import Bulletin from "@page/Bulletin"
@@ -65,7 +66,11 @@ const AppRouter = () => {
                 },
                 {
                     path: "/training",
-                    element: <Training />
+                    element: <Training />,
+                },
+                {
+                  path: "/training/:categoryId",
+                  element: <TrainingCategory />
                 },
                 {
                     path: "/bulletin",

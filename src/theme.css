@@ -31,6 +31,7 @@ body {
     z-index: 1000;
     justify-content: space-between; 
     border: 1px solid #BDC7CE;
+    height: 64px;
 }
 
 .navbar-list-left {
@@ -158,3 +159,6 @@ body {
     background-color: #EAF3FC;
 }
 
+.no-underline {
+    text-decoration: none;
+}

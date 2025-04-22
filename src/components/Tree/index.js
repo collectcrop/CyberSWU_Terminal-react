@@ -13,7 +13,7 @@ const TreeNode = ({ imageSrc, node, onClick, level,toggleNode}) => {
     // setIsOpen(!isOpen);
     dispatch(toggleNode(node._id));  // 切换当前节点的展开状态
   };
-
+  console.log(node);
   const articleId = useSelector((state) => state.knowledge).ArticleId;
   return (
     <li key={node._id}>
@@ -32,7 +32,8 @@ const TreeNode = ({ imageSrc, node, onClick, level,toggleNode}) => {
           {/* 旋转的图标 */}
           <i className="fa fa-chevron-right w-5 h-5" />
         </span>
-      </button> :         
+      </button> :
+               
       <a className="h-8 font-normal w-full overflow-hidden rounded-lg flex no-underline text-black
       justify-start items-center hover:bg-customed-color-hover"
       href={articleId.find((item) => item.id === node._id)?.url || '#'}
