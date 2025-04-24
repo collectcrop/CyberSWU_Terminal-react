@@ -43,7 +43,7 @@ const AvatarMenu = ({ user, logout }) => {
               onClick={() => navigate("/UserSettings")}
               className="w-full text-left px-2 py-1 text-sm hover:bg-gray-100 rounded"
             >
-              用户设置
+              用户信息
             </button>
             <button
               onClick={logout}

@@ -1,9 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@contexts/AuthContext';
 // 组件：单级可展开列表项
 const ExpandableList = ({ data }) => {
   const [expandedItems, setExpandedItems] = useState(new Set());
+  const [solvedChallenges, setSolvedChallenges] = useState(new Set());
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const userId = user.id;
+  useEffect(() => {
+    fetch(`http://localhost:3001/api/challenges/solved/${userId}`)
+      .then(res => res.json())
+      .then(data => setSolvedChallenges(new Set(data)))
+      .catch(console.error);
+  }, []);
   // 切换展开状态
   const toggleItem = (id) => {
     setExpandedItems(prev => {
@@ -40,15 +50,25 @@ const ExpandableList = ({ data }) => {
           {/* 展开后显示子项 */}
           {expandedItems.has(item.id) && item.children && (
             <ul className="mt-2 pl-4" style={{ paddingLeft: `${item.level * 4}px` }}>
-              {item.children.map(child => (
+              {item.children.map(child => ( 
                 <li key={child.id}>
                   <button
                     onClick={() => navigate(child.url)}
                     className="block h-8 w-full font-normal rounded-lg hover:bg-customed-color-hover 
                             flex items-center px-4 text-black text-left"
                   >
-                    <img src="/images/flag.svg" className="w-4 h-4 mr-2" />
-                    <span className="text-black">{child.title}</span>
+                    { solvedChallenges.has(child.id) ? (
+                      <div className="flex items-center">
+                        <img src="/images/green_flag.ico" className="w-4 h-4 mr-2" />
+                        <span className="text-black">{child.title}</span>
+                      </div>
+                    ):
+                    <div className='flex items-center'>
+                      <img src="/images/flag.svg" className="w-4 h-4 mr-2" />
+                      <span className="text-black">{child.title}</span>
+                    </div>
+                    }
+                    
                   </button>
                 </li>
               ))}

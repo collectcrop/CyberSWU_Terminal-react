@@ -39,7 +39,7 @@ const Card = ({ imageSrc, text, onClick, path, customContent, variant = "left", 
         ) : (
           <>
             {imageSrc && <img src={imageSrc} className="w-4 h-4 mr-2" />}
-            <span className="ml-1 font-bold">{text}</span>
+            <span className="font-bold">{text}</span>
           </>
         )}
         

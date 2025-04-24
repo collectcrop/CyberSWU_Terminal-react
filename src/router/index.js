@@ -14,6 +14,7 @@ import Home from "@page/Home"
 import Register from "@page/Register"
 import Forget from "@page/Forget"
 import ResetPassword from "@page/ResetPassword"
+import UserSettings from "@page/UserSettings";
 import App from "../App";
 
 const AppRouter = () => {
@@ -59,6 +60,10 @@ const AppRouter = () => {
                 {
                   path: "/reset-password/:token",
                   element: <ResetPassword />
+                },
+                {
+                  path: "/UserSettings",
+                  element: <UserSettings />
                 },
                 {
                     path: "/games",
