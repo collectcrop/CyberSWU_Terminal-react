@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react"
 // import useAuth from "@hooks/useAuth"
 import { useAuth } from '@contexts/AuthContext'
 import NavbarCard from "@components/Card";
+import axios from 'axios';
 const AvatarMenu = ({ user, logout }) => {
     const [open, setOpen] = useState(false);
     const menuRef = useRef(null);
@@ -10,6 +11,21 @@ const AvatarMenu = ({ user, logout }) => {
   
     // 点击外部关闭菜单
     useEffect(() => {
+      const checkToken = async () => {      // 检查 token 是否有效
+        try {
+          const res = await axios.get('http://localhost:3001/api/auth/check-token', {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('token'),
+            },
+          });
+          console.log('登录状态有效：', res.data.user);
+        } catch (err) {
+          console.error('Token 无效或已过期，跳转登录页');
+          localStorage.removeItem('token');
+        }
+      };
+    
+      checkToken();
       const handleClickOutside = (e) => {
         if (menuRef.current && !menuRef.current.contains(e.target)) {
           setOpen(false);
@@ -61,6 +77,31 @@ const AvatarMenu = ({ user, logout }) => {
 const Navbar = () =>{
   const navigate = useNavigate()
   const { user, isLoggedIn, logout } = useAuth();
+  const [ isAdmin, setIsAdmin ] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (isLoggedIn && token && !isAdmin) {
+      fetch('http://localhost:3001/api/auth/check-admin', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.isAdmin) {
+            console.log('你是管理员！');
+            setIsAdmin(true);
+          } else {
+            setIsAdmin(false);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          setIsAdmin(false);
+        });
+    }
+  }, [isLoggedIn]);
   return(
       <div className="navbar">
           <div className="navbar-list-left">
@@ -95,6 +136,15 @@ const Navbar = () =>{
               />
           </div>
           <div className="navbar-list-right">
+            {isAdmin && (
+              <NavbarCard
+              imageSrc="/images/dashboard.svg"
+              text="控制面板"
+              path="/admin/dashboard"
+              onClick={() => navigate("/admin/dashboard")}
+            />
+            )}
+            
             {isLoggedIn ? (
               <AvatarMenu user={user} logout={logout}/>
             ) : (

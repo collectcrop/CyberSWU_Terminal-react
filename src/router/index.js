@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Article from "@page/Article"
 import Login from "@page/Login"
@@ -15,6 +15,9 @@ import Register from "@page/Register"
 import Forget from "@page/Forget"
 import ResetPassword from "@page/ResetPassword"
 import UserSettings from "@page/UserSettings";
+import Dashboard from "@page/Dashboard";
+import BulletinManage from "@page/Dashboard/BulletinManage";
+import ChallengeManage from "@page/Dashboard/ChallengeManage";
 import App from "../App";
 
 const AppRouter = () => {
@@ -34,7 +37,9 @@ const AppRouter = () => {
           setRouterConfig([
             {
               path: "/",
-              element: <Layout />,
+              element: (
+                  <Layout />
+              ),
               children: [
                 { index: true, element: <Home /> },
                 {
@@ -78,6 +83,19 @@ const AppRouter = () => {
                   element: <TrainingCategory />
                 },
                 {
+                  path: "/admin/dashboard",
+                  element: <Dashboard />,
+                  children:[{
+                    path: "/admin/dashboard/challenge-manage",
+                    element: <ChallengeManage />
+                    },
+                    {
+                    path: "/admin/dashboard/bulletin-manage",
+                    element: <BulletinManage />
+                    }
+                  ]
+                },
+                {
                     path: "/bulletin",
                     element: <Bulletin />
                 }
@@ -95,34 +113,6 @@ const AppRouter = () => {
   
       fetchRoutes();
     }, []);
-  
-    // // 处理目录树，生成子路由
-    // const processTreeData = (data) => {
-    //   const routes = [];
-    
-    //   // 处理单个节点的逻辑
-    //   const processNode = (node) => {
-    //     if (node.index) {
-    //       routes.push({
-    //         path: `/knowledge/${node.index}`,
-    //         element: <Article articleId={node.index} />,  // 动态加载文章页面
-    //       });
-    //     } else {
-    //       routes.push(...processTreeData(node.children));  // 递归处理子节点
-    //     }
-    //   };
-    
-    //   // 如果 data 是一个数组，则遍历每个元素
-    //   if (Array.isArray(data)) {
-    //     data.forEach(processNode);
-    //   } else {
-    //     // 如果 data 只是一个对象
-    //     processNode(data);
-    //   }
-    //   console.log(routes)
-    //   return routes;
-    // };
-        
   
     return routerConfig.length > 0 ? (
         <RouterProvider router={createBrowserRouter(routerConfig)} />
